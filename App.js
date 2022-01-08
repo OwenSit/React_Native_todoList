@@ -14,11 +14,17 @@ export default function App() {
   const [event, setEvent] = useState("");
 
   const handleAddEvent = () => {
-    let id = list.length + 1;
-    let newEvent = { event: event, id: id };
+    let len = list.length;
+    let newID = 0;
+    if (len === 0) {
+      newID = 1;
+    } else {
+      newID = list[len - 1].id + 1;
+    }
+    let newEvent = { event: event, id: newID };
     let newList = list;
     newList.push(newEvent);
-    console.log(newList);
+    console.log(len);
     setList(newList);
   };
 
@@ -35,14 +41,16 @@ export default function App() {
 
   // function used to rendering the flatlist:
   const renderItem = ({ item }) => (
-    <TouchableOpacity
-      onPress={() => {
-        console.log(item.event);
-      }}
-    >
+    <TouchableOpacity onPress={() => deleteItem(item.id)}>
       <Text style={styles.item}>{item.event}</Text>
     </TouchableOpacity>
   );
+
+  const deleteItem = (id) => {
+    setList((oldList) => {
+      return oldList.filter((list) => list.id != id);
+    });
+  };
 
   return (
     <View style={styles.container}>
