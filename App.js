@@ -26,6 +26,7 @@ export default function App() {
     newList.push(newEvent);
     console.log(len);
     setList(newList);
+    alert("Item added!");
   };
 
   // useState to store the todo list
@@ -77,7 +78,6 @@ export default function App() {
           maxLength={40}
           clearButtonMode="while-editing"
           returnKeyType="done"
-          returnKeyLabel="Add"
           onChangeText={(val) => {
             setEvent(val);
           }}
