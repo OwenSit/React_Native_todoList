@@ -6,6 +6,7 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
 
 export default function App() {
@@ -13,8 +14,35 @@ export default function App() {
   const [event, setEvent] = useState("");
 
   const handleAddEvent = () => {
-    console.log(event);
+    let id = list.length + 1;
+    let newEvent = { event: event, id: id };
+    let newList = list;
+    newList.push(newEvent);
+    console.log(newList);
+    setList(newList);
   };
+
+  // useState to store the todo list
+  const [list, setList] = useState([
+    { event: "buy a book📔", id: "1" },
+    { event: "pickup Andy👦🏻", id: "2" },
+    { event: "visit Mr.Joe👨", id: "3" },
+    { event: "return CD player💿", id: "4" },
+    { event: "mail the postcard📮", id: "5" },
+    { event: "get some gas⛽", id: "6" },
+    { event: "book a ticket🎫", id: "7" },
+  ]);
+
+  // function used to rendering the flatlist:
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      onPress={() => {
+        console.log(item.event);
+      }}
+    >
+      <Text style={styles.item}>{item.event}</Text>
+    </TouchableOpacity>
+  );
 
   return (
     <View style={styles.container}>
@@ -53,6 +81,12 @@ export default function App() {
           <Text>Add!</Text>
         </TouchableOpacity>
       </View>
+      <FlatList
+        keyExtractor={(item) => item.id}
+        data={list}
+        renderItem={renderItem}
+        style={styles.list}
+      />
       <StatusBar style="auto" />
     </View>
   );
@@ -83,5 +117,18 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
     padding: 6,
     borderRadius: 10,
+  },
+  list: {
+    marginTop: 20,
+  },
+
+  item: {
+    marginTop: 24,
+    padding: 15,
+    backgroundColor: "#807689",
+    fontSize: 24,
+    marginHorizontal: 10,
+    marginTop: 24,
+    textAlign: "center",
   },
 });
